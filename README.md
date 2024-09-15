@@ -1,3 +1,3 @@
-## Backend ваполнен на laravel
-
+## Backend ваполнен на Laravel.
+## Для авторизации используется Laravel Sanctum.
 
