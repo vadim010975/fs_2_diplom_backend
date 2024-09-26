@@ -49,8 +49,8 @@ class HallController extends Controller
     public function destroy(int $hallId)
     {
         $hall = Hall::query()->findOrFail($hallId);
-        $seances = $hall->seances();
-        $seances->delete();
+        $hall->seances()->delete();
+        $hall->chairs()->delete();
         if ($hall->delete()) {
             return response(null, 204);
         }

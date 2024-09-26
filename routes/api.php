@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 Route::post('tokens/create', [\App\Http\Controllers\ApiTokenController::class, 'createToken']);
@@ -43,3 +44,8 @@ Route::get('/hall/seances/available', [App\Http\Controllers\HallController::clas
 Route::post('/ticket', [App\Http\Controllers\TicketController::class, 'store']);
 
 Route::post("/qrcode", [App\Http\Controllers\QrcodeController::class, 'getQrcode']);
+
+Route::get('/linkstorage', function () {
+    Artisan::call('storage:link');
+    return 'ok';
+});
