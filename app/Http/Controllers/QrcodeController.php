@@ -18,8 +18,8 @@ class QrcodeController extends Controller
 
         QRcode::png($str, base_path() . '/storage/app/public/QRCode/qrcode.png');
 
-        return json_encode(asset('storage/QRCode/qrcode.png'));
-
+//        return response(json_encode(asset('storage/QRCode/qrcode.png')), 200)->header('Content-Type', 'application/json');
+        return response(asset('storage/QRCode/qrcode.png'), 200)->header('Content-Type', 'text/plain');
     }
 
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\MovieRequest;
+use App\Models\Hall;
 use App\Models\Movie;
 use Illuminate\Support\Facades\Storage;
 
@@ -19,7 +20,6 @@ class MovieController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-
     public function store(MovieRequest $request)
     {
         if ($request->hasFile('file') && $request->file('file')->isValid()) {
@@ -76,12 +76,28 @@ class MovieController extends Controller
         return null;
     }
 
-    public function getByDate(string $date) {
+    /**
+     * Функция возвращает подходящие по дате, имеющие сеансы в доступных залах, фильмы.
+     */
+    public function getMoviesAvailable(string $date) {
         $movies = Movie::where('start_date', '<=', $date)
             ->where('end_date', '>=', $date)
             ->has('seances')
             ->get();
-        return $movies;
-    }
 
+        $halls = Hall::has('seances')->where('sales', true)->get();
+
+        $availableMovies = [];
+
+        foreach($movies as $movie) {
+            foreach($halls as $hall) {
+                if ($movie->seances()->where('hall_id', $hall->id)->exists()) {
+                    if (!in_array($movie, $availableMovies)) {
+                        $availableMovies[] = $movie;
+                    }
+                }
+            }
+        }
+        return $availableMovies;
+    }
 }

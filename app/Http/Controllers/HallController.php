@@ -84,8 +84,11 @@ class HallController extends Controller
         return $hall->save();
     }
 
-    public function getSeancesAvailable() {
-        $halls = Hall::has('seances')->get();
+    /**
+     * функция возвращает залы в которых есть сеансы и открыты продажи.
+     */
+    public function getHallsAvailable() {
+        $halls = Hall::has('seances')->where('sales', true)->get();
         return $halls;
     }
 

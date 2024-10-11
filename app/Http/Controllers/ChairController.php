@@ -39,13 +39,16 @@ class ChairController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Обновить кресла в зале, по id зала
+     * кресла получают новые id
+     *
+     * @request array chairs
+     * @param $hallId
      */
     public function update(UpdateChairsByHallRequest $request, int $hallId)
     {
         Hall::query()->findOrFail($hallId)->chairs()->delete();
         $chairs = $request->validated()['chairs'];
-        $array = [];
         foreach ($chairs as $chair) {
             $item = [
                 'hall_id' => $hallId,
@@ -53,9 +56,9 @@ class ChairController extends Controller
                 'place' => $chair['place'],
                 'type' => $chair['type']
             ];
-            $array[] = Chair::query()->create($item);
+            Chair::query()->create($item);
         }
-        return  $array;
+        return  Hall::query()->findOrFail($hallId)->chairs()->get();
     }
 
     public function updateChairs(UpdateChairsByIdRequest $request)

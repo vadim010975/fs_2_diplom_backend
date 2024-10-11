@@ -37,9 +37,9 @@ Route::apiResource('/chair', App\Http\Controllers\ChairController::class);
 
 Route::get('/hall/{hallId}/seances/{movieId}', [App\Http\Controllers\HallController::class, 'getSeances']);
 
-Route::get('/movie/date/{date}', [App\Http\Controllers\MovieController::class, 'getByDate']);
+Route::get('/movie/date/{date}', [App\Http\Controllers\MovieController::class, 'getMoviesAvailable']);
 
-Route::get('/hall/seances/available', [App\Http\Controllers\HallController::class, 'getSeancesAvailable']);
+Route::get('/hall/seances/available', [App\Http\Controllers\HallController::class, 'getHallsAvailable']);
 
 Route::post('/ticket', [App\Http\Controllers\TicketController::class, 'store']);
 
